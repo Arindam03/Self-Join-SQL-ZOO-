@@ -1,0 +1,51 @@
+Q5 - Execute the self join shown and observe that b.stop gives all the places you can get to from Craiglockhart, without changing routes. Change the query so that it shows the services from Craiglockhart to London Road.
+
+SELECT a.company,a.num,a.stop,b.stop 
+FROM route as a 
+JOIN route as b 
+ON (a.num = b.num and a.company = b.company) 
+WHERE a.stop = 53 and b.stop = 149 
+
+Q6 - The query shown is similar to the previous one, however by joining two copies of the stops table we can refer to stops by name rather than by number. Change the query so that the services between 'Craiglockhart' and 'London Road' are shown. If you are tired of these places try 'Fairmilehead' against 'Tollcross'
+
+SELECT a.company,a.num,stopa.name,stopb.name 
+FROM route as a 
+Join route as b
+On (a.company=b.company and a.num = b.num) 
+Join stops as stopa
+On a.stop = stopa.id 
+Join stops as stopb
+On b.stop = stopb.id  
+Where stopa.name = 'Craiglockhart' and stopb.name = 'London Road' 
+
+Q7-Give a list of all the services which connect stops 115 and 137 ('Haymarket' and 'Leith')
+
+SELECT Distinct a.company,a.num 
+FROM route as a 
+JOIN route as b 
+ON (a.num = b.num and a.company = b.company) 
+WHERE a.stop = 115 and b.stop = 137  
+
+Q8 - Give a list of the services which connect the stops 'Craiglockhart' and 'Tollcross 
+
+SELECT a.company,a.num
+FROM route as a 
+Join route as b
+On (a.company=b.company and a.num = b.num) 
+Join stops as stopa
+On a.stop = stopa.id 
+Join stops as stopb
+On b.stop = stopb.id 
+Where stopa.name = 'Craiglockhart' and stopb.name = 'Tollcross' 
+
+Q9-Give a distinct list of the stops which may be reached from 'Craiglockhart' by taking one bus, including 'Craiglockhart' itself, offered by the LRT company. Include the company and bus no. of the relevant services.
+
+SELECT stopb.name,a.company,a.num
+FROM route as a 
+Join route as b
+On (a.company=b.company and a.num = b.num) 
+Join stops as stopa
+On a.stop = stopa.id 
+Join stops as stopb
+On b.stop = stopb.id 
+Where stopa.name = 'Craiglockhart' and a.company = 'LRT'
